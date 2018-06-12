@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 15, 2018 lúc 08:52 AM
+-- Thời gian đã tạo: Th6 12, 2018 lúc 10:56 AM
 -- Phiên bản máy phục vụ: 10.1.26-MariaDB
--- Phiên bản PHP: 7.0.22
+-- Phiên bản PHP: 7.2.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -598,6 +598,33 @@ INSERT INTO `menu` (`id`, `name`, `alias`, `photo`, `status`, `lever`, `parent_i
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `menus`
+--
+
+CREATE TABLE `menus` (
+  `id` int(11) NOT NULL,
+  `name` varchar(250) DEFAULT NULL,
+  `slug` varchar(255) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `order` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Đang đổ dữ liệu cho bảng `menus`
+--
+
+INSERT INTO `menus` (`id`, `name`, `slug`, `parent_id`, `order`, `created_at`, `updated_at`) VALUES
+(1, 'Trang chủ', 'trang-chu', NULL, 1, '2018-06-12 02:04:47', '2018-06-11 19:04:47'),
+(2, 'Giới thiệu', 'gioi-thieu', NULL, 2, '2018-06-11 02:07:56', '2018-06-11 02:07:56'),
+(3, 'Tin tức', 'tin-tuc', NULL, 3, '2018-06-12 08:41:33', '2018-06-12 01:41:33'),
+(4, 'Sản phẩm', 'san-pham', NULL, 4, '2018-06-12 02:29:30', '2018-06-11 19:29:30'),
+(5, 'Liên hệ', 'lien-he', NULL, 5, '2018-06-12 02:29:14', '2018-06-11 19:29:14');
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `migrations`
 --
 
@@ -1168,7 +1195,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `username`, `password`, `name`, `email`, `phone`, `address`, `level`, `photo`, `status`, `remember_token`, `created_at`, `updated_at`) VALUES
 (3, 'tuanduy2012', '$2y$10$DceYJxR4ALmUW.Vt6k9En.1ubJhJGvWX1HISRloBERLNJ8Qq85itO', 'Tuan Duy', 'duydoan.nina@gmail.com', '', '', 1, NULL, 1, 'X37mpbjW1WDCjwH3s4Vq1Jkv3WRNJceXZlbLwHaa', '2017-06-14 23:42:39', '2017-06-14 23:42:39'),
 (4, 'evernigh', '$2y$10$pprRO9LhYKADS60bvetRnOYoS3L74giVWf3D/wNZXlDLDRRx0bH6e', 'Duy Đoàn', 'tuanduy_mc2006@yahoo.com', '', '', 0, NULL, 1, '6CirvIekDhWLx3xFrnv7v39bFmalTsH21F4WABTq', '2017-06-16 02:51:34', '2017-06-16 02:51:34'),
-(5, 'gco_admin', '$2y$10$Lm3vxVo0UYuWFSzJkpvmwOKecqZm5coQSy1D3QW/Tc8c569RgBNFK', 'Admin', 'gco@gmail.com', '0985431797', '315 Trường chinh, Thanh Xuân, Hà Nội', 1, '5.jpg', 1, 'DQaWH76KnzFgsWBI0dFjhcT3csqprj4iDVZoOcduTK7pqkTmfOp3TYJfpPss', '2017-11-07 08:29:35', '2017-09-24 19:31:27'),
+(5, 'gco_admin', '$2y$10$Lm3vxVo0UYuWFSzJkpvmwOKecqZm5coQSy1D3QW/Tc8c569RgBNFK', 'Admin', 'gco@gmail.com', '0985431797', '315 Trường chinh, Thanh Xuân, Hà Nội', 1, '5.jpg', 1, 'ATqGWtyqUocfn1Ha1iugafAteCbQpmwCOpQuBaaOaSVGiHor0mEZ9gINEyt3', '2018-06-11 04:03:51', '2017-09-24 19:31:27'),
 (7, 'hoangchuong', '$2y$10$PnaSJxmZdL0x0wRtj4q0tODPWKtxI85VefEFNZWDQKEH6q8rxjLc6', 'chuong', 'chuonghoanghong@gmail.com', NULL, NULL, 1, NULL, 1, 'DSYV3dr0q7IjUiVKsa4tl4ApOSuDPybd17EupcaO', '2017-11-07 01:31:10', '2017-11-07 01:31:10');
 
 -- --------------------------------------------------------
@@ -1316,6 +1343,12 @@ ALTER TABLE `lienket`
 ALTER TABLE `menu`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `news_categories_name_unique` (`name`);
+
+--
+-- Chỉ mục cho bảng `menus`
+--
+ALTER TABLE `menus`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Chỉ mục cho bảng `news`
@@ -1563,6 +1596,12 @@ ALTER TABLE `lienket`
 --
 ALTER TABLE `menu`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+
+--
+-- AUTO_INCREMENT cho bảng `menus`
+--
+ALTER TABLE `menus`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT cho bảng `news`
