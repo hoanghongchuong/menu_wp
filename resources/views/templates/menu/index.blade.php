@@ -198,16 +198,16 @@ p { line-height: 1.5em; }
             $("li[data-id='"+e.destId +"']").find('ol:first').children().each(function(index,elem) {
                 order[index] = $(elem).attr('data-id');
             });
-            if (order.length === 0){
-                var order = new Array();
+             if (order.length === 0){
+                var rootOrder = new Array();
                 $("#nestable > ol > li").each(function(index,elem) {
-                    order[index] = $(elem).attr('data-id');
+                  rootOrder[index] = $(elem).attr('data-id');
                 });
-            }
+               }
             var data_id = window.location.hostname + '.nestable';
             var drag_data = JSON.stringify($('.dd').nestable('serialize'));
             var a = JSON.parse(drag_data);
-            alert(drag_data);
+            // alert(drag_data);
             var storage_data = localStorage.getItem(data_id);
             if (drag_data === storage_data) {
                 return false;
@@ -217,9 +217,11 @@ p { line-height: 1.5em; }
                 type: 'POST',
                 url: baseUrl() + '/menu/drag',
                 data: {
-                    sourceId : e.sourceId,
-                    destinationId: e.destId,
+                    // sourceId : e.sourceId,
+                    // destinationId: e.destId,
                     order: order,
+                    drag_data: drag_data,
+                    rootOrder: rootOrder,
                     _token: window.token
                 },
                 success: function(res){

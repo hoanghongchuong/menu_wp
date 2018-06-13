@@ -52,16 +52,59 @@ class MenuController extends Controller
 
     public function drag(Request $req)
     {
-    	$sourceId = $req->sourceId;
-    	dd($sourceId);
+
+    	$sourceId = $req->drag_data;
+        // $order = $req->order;
+        // $rootOrder = $req->rootOrder;
+        $a = json_decode($sourceId);        
+    	foreach($a as $k=>$item)
+        {
+            if(isset($item->children))
+            {
+                foreach($item->children as $h=>$children)
+                {
+                    if(isset($children->children))
+                    {
+                        foreach($children->children as $h3=>$children3)
+                        {
+                            $data3 = Menus::find($children3->id);
+                            $data3->parent_id = $children->id;
+                            $data3->order = $h+$k+$h3+3;
+                            $data3->save();
+                        }                
+                    }
+                    $data = Menus::find($children->id);
+                    $data->parent_id = $item->id;
+                    $data->order = $h+$k+2;
+                    $data->save();
+                }                
+            }
+            $data = Menus::find($item->id);
+            $data->parent_id = 0;
+            $data->order = $k + 1;                
+            $data->save();
+        }
+        return 1;
     }
-
-
 
     public function deleteMenu($id)
     {
     	// $id = $req->_id;
     	$data = Menus::find($id);
+        $children = Menus::where('parent_id', $data->id)->get();
+        if(count($children) > 0){
+            foreach($children as $item){
+                $childrens = Menus::where('parent_id', $item->id)->get();
+                if(count($children) > 0){
+                    foreach($childrens as $items){
+                        $items->delete();
+                    }
+                }
+                $item->delete();
+
+            }
+        }
+        
     	$data->delete();
     	
     	return redirect()->back();
